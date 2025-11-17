@@ -18,20 +18,28 @@ Used for subarray sum, xor, modulo, or prefix-frequency tasks.
 Input: nums = [1,1,1], k = 2 → Output = 2
 
 ```java
-import java.util.HashMap;
 class Solution {
     public int subarraySum(int[] nums, int k) {
-        HashMap<Integer,Integer> map = new HashMap<>();
-        map.put(0,1);
-        int prefix=0, count=0;
-        for(int n: nums){
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);  // prefix sum 0 exists once
+        
+        int prefix = 0;
+        int count = 0;
+
+        for (int n : nums) {
             prefix += n;
-            count += map.getOrDefault(prefix - k, 0);
-            map.put(prefix, map.getOrDefault(prefix,0)+1);
+
+            if (map.containsKey(prefix - k)) {
+                count += map.get(prefix - k);
+            }
+
+            map.put(prefix, map.getOrDefault(prefix, 0) + 1);
         }
+
         return count;
     }
 }
+
 ```
 
 ### Count Subarrays Divisible by K
